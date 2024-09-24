@@ -31,7 +31,7 @@ export default function Cart() {
           </tbody>
         </table>
       ) : (
-        <h1>Empty</h1>
+        <h5>Your cart is empty</h5>
       )}
     </Row>
   );

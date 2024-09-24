@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { DeleteOutlined } from "@ant-design/icons";
 import { Button, InputNumber } from "antd";
 import { useDispatch } from "react-redux";
-import { updateQuantity } from "../redux/slice/cartSlice";
+import { removeItem, updateQuantity } from "../redux/slice/cartSlice";
 
 function CartItem({ data }) {
   const dispatch = useDispatch();
@@ -14,6 +14,10 @@ function CartItem({ data }) {
   const handleChange = (value) => {
     const validValue = value > 0 ? value : 1;
     setQuantity(validValue);
+  };
+
+  const handleRemove = () => {
+    dispatch(removeItem({ id: data?.id }));
   };
 
   useEffect(() => {
@@ -74,7 +78,7 @@ function CartItem({ data }) {
             alignItems: "center",
           }}
         >
-          <Button color="danger" variant="solid">
+          <Button color="danger" variant="solid" onClick={handleRemove}>
             <DeleteOutlined />
           </Button>
         </div>

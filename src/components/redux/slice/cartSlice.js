@@ -33,11 +33,18 @@ const cartSlice = createSlice({
         0
       );
     },
+    removeItem(state, action) {
+      state.list = state.list.filter((book) => book.id !== action.payload.id);
+      state.total = state.list.reduce(
+        (sum, book) => sum + book?.price * book?.quantity,
+        0
+      );
+    },
   },
 });
 
 const { actions, reducer } = cartSlice;
 
-export const { addToCart, updateQuantity } = actions;
+export const { addToCart, updateQuantity, removeItem } = actions;
 
 export default reducer;
