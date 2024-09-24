@@ -12,7 +12,6 @@ const ShopHeader = () => {
         display: "flex",
         justifyContent: "space-between",
         width: "100%",
-        paddingBottom: "40px",
       }}
       mode="horizontal"
     >

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { DeleteOutlined } from "@ant-design/icons";
-import { Button, InputNumber } from "antd";
+import { Button, InputNumber, notification } from "antd";
 import { useDispatch } from "react-redux";
 import { removeItem, updateQuantity } from "../redux/slice/cartSlice";
 
@@ -18,6 +18,11 @@ function CartItem({ data }) {
 
   const handleRemove = () => {
     dispatch(removeItem({ id: data?.id }));
+    notification.success({
+      message: "Item Removed",
+      description: `${data.name} has been removed from your cart.`,
+      placement: "topRight",
+    });
   };
 
   useEffect(() => {
