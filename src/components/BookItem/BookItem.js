@@ -1,6 +1,20 @@
 import { Card, Button } from "antd";
+import { useDispatch } from "react-redux";
+import { addToCart } from "../redux/slice/cartSlice";
 
 export default function BookItem({ data }) {
+  const dispatch = useDispatch();
+
+  const handleAddToCart = () => {
+    dispatch(
+      addToCart({
+        ...data,
+        quantity: 1,
+      })
+    );
+    alert("Added to cart");
+  };
+
   return (
     <Card
       hoverable
@@ -11,7 +25,11 @@ export default function BookItem({ data }) {
           style={{ height: "300px", objectFit: "cover" }}
         />
       }
-      actions={[<Button type="primary">Add to cart</Button>]}
+      actions={[
+        <Button onClick={handleAddToCart} type="primary">
+          Add to cart
+        </Button>,
+      ]}
     >
       <Card.Meta
         title={data.name}

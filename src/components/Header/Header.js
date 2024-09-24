@@ -1,8 +1,11 @@
 import { Menu } from "antd";
 import { ShoppingCartOutlined } from "@ant-design/icons";
 import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 const ShopHeader = () => {
+  const { list } = useSelector((state) => state.cart);
+
   return (
     <Menu
       style={{
@@ -20,6 +23,7 @@ const ShopHeader = () => {
         <Link to="/cart">
           <ShoppingCartOutlined />
           Cart
+          <span> {list?.length} </span>
         </Link>
       </Menu.Item>
     </Menu>
