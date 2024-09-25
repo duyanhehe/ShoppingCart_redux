@@ -5,6 +5,8 @@ const cartSlice = createSlice({
   initialState: {
     list: [],
     total: 0,
+    loading: false,
+    error: null,
   },
   reducers: {
     addToCart(state, action) {
@@ -40,11 +42,36 @@ const cartSlice = createSlice({
         0
       );
     },
+    resetCart(state) {
+      state.list = [];
+      state.total = 0;
+    },
+    confirmBuy(state) {
+      state.loading = true;
+      state.error = null;
+    },
+    confirmBuySuccess(state) {
+      state.loading = false;
+      state.list = [];
+      state.total = 0;
+    },
+    confirmBuyFailure(state, action) {
+      state.loading = false;
+      state.error = action.payload;
+    },
   },
 });
 
 const { actions, reducer } = cartSlice;
 
-export const { addToCart, updateQuantity, removeItem } = actions;
+export const {
+  addToCart,
+  updateQuantity,
+  removeItem,
+  resetCart,
+  confirmBuy,
+  confirmBuySuccess,
+  confirmBuyFailure,
+} = actions;
 
 export default reducer;

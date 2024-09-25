@@ -18,7 +18,8 @@ const authSlice = createSlice({
     loginSuccess: (state, action) => {
       state.loading = false;
       state.isAuthenticated = true;
-      state.user = action.payload;
+      const { uid, displayName, email } = action.payload; // Only store necessary fields
+      state.user = { uid, displayName, email }; // Save a simpler user object
     },
     loginFailure: (state, action) => {
       state.loading = false;
@@ -31,7 +32,8 @@ const authSlice = createSlice({
     signUpSuccess: (state, action) => {
       state.loading = false;
       state.isAuthenticated = true;
-      state.user = action.payload;
+      const { uid, displayName, email } = action.payload; // Only store necessary fields
+      state.user = { uid, displayName, email }; // Save a simpler user object
     },
     signUpFailure: (state, action) => {
       state.loading = false;

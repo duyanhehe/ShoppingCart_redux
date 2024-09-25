@@ -4,6 +4,8 @@ import { getAuth } from "firebase/auth";
 const firebaseConfig = {
   apiKey: "AIzaSyCPm5Aj4grunFQCs1Sc9p6UJ4y7GrewFE0",
   authDomain: "storeweb-f59e5.firebaseapp.com",
+  databaseURL:
+    "https://storeweb-f59e5-default-rtdb.asia-southeast1.firebasedatabase.app",
   projectId: "storeweb-f59e5",
   storageBucket: "storeweb-f59e5.appspot.com",
   messagingSenderId: "270037162883",

@@ -1,15 +1,32 @@
-import { Row } from "antd";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import CartItem from "../CartItem/CartItem";
+import { Button, Row, Typography, notification } from "antd";
+import { confirmBuy } from "../redux/slice/cartSlice";
+const { Text } = Typography;
 
 export default function Cart() {
   const cart = useSelector((state) => state.cart);
-  console.log(cart);
+  const { isAuthenticated, user } = useSelector((state) => state.auth);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const handleConfirmBuy = () => {
+    if (isAuthenticated) {
+      dispatch(confirmBuy({ cart, user }));
+    } else {
+      notification.error({
+        message: "Login required",
+        description: "You need to login to confirm the purchase",
+      });
+      navigate("/login");
+    }
+  };
 
   return (
     <div style={{ paddingTop: "50px" }}>
-      <Row>
-        {cart?.list && cart?.list.length > 0 ? (
+      {cart?.list && cart?.list.length > 0 ? (
+        <Row>
           <table style={{ width: "100%" }}>
             <thead>
               <tr>
@@ -26,15 +43,27 @@ export default function Cart() {
               })}
               <tr style={{ fontSize: 20, textAlign: "right" }}>
                 <td colSpan={3}>Total:</td>
-                <td colSpan={1}>{cart?.total}$</td>
+                <td colSpan={2}>{cart?.total}$</td>
                 <td></td>
+              </tr>
+              <tr>
+                <td colSpan={5} style={{ textAlign: "right" }}>
+                  <Button type="primary" onClick={handleConfirmBuy}>
+                    Confirm Purchase
+                  </Button>
+                </td>
               </tr>
             </tbody>
           </table>
-        ) : (
-          <h5>Your cart is empty</h5>
-        )}
-      </Row>
+        </Row>
+      ) : (
+        <div style={{ textAlign: "center" }}>
+          <h5>
+            <Text>Your cart is empty</Text>
+          </h5>
+          <Button onClick={() => navigate("/")}> Shop Now</Button>
+        </div>
+      )}
     </div>
   );
 }
