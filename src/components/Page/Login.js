@@ -1,20 +1,29 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { loginRequest } from "../redux/slice/authSlice";
+import { useNavigate } from "react-router-dom";
 import { Alert, Button, Form, Input, Typography } from "antd";
 
 const { Text } = Typography;
 
 const Login = () => {
   const [credentials, setCredentials] = useState({
-    username: "",
+    email: "",
     password: "",
   });
   const dispatch = useDispatch();
-  const { loading, error } = useSelector((state) => state.auth);
+  const { isAuthenticated, loading, error } = useSelector(
+    (state) => state.auth
+  );
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      navigate("/");
+    }
+  }, [isAuthenticated, navigate]);
 
   const handleSubmit = (e) => {
-    e.preventDefault();
     dispatch(loginRequest(credentials));
   };
 

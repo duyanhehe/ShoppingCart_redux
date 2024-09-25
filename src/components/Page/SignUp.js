@@ -1,14 +1,24 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { signUpRequest } from "../redux/slice/authSlice";
+import { useNavigate } from "react-router-dom";
 import { Alert, Form, Input, Button, Typography } from "antd";
 
 const { Text } = Typography;
 
 const SignUp = () => {
   const dispatch = useDispatch();
-  const { loading, error } = useSelector((state) => state.auth);
+  const { isAuthenticated, loading, error } = useSelector(
+    (state) => state.auth
+  );
   const [credentials, setCredentials] = useState({ email: "", password: "" });
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      navigate("/");
+    }
+  }, [isAuthenticated, navigate]);
 
   const handleSubmit = () => {
     dispatch(signUpRequest(credentials));

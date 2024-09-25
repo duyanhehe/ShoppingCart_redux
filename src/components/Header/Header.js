@@ -1,11 +1,27 @@
-import { Menu } from "antd";
-import { ShoppingCartOutlined } from "@ant-design/icons";
+import { Menu, Dropdown, Avatar } from "antd";
+import { ShoppingCartOutlined, UserOutlined } from "@ant-design/icons";
 import { Link, useLocation } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { logout } from "../redux/slice/authSlice";
 
 const ShopHeader = () => {
   const { list } = useSelector((state) => state.cart);
-  const location = useLocation(); // Get the current location
+  const { isAuthenticated, user } = useSelector((state) => state.auth);
+  const location = useLocation();
+  const dispatch = useDispatch();
+
+  const handleLogout = () => {
+    dispatch(logout());
+  };
+
+  // Dropdown menu for user actions
+  const userMenu = (
+    <Menu>
+      <Menu.Item key="logout" onClick={handleLogout}>
+        Logout
+      </Menu.Item>
+    </Menu>
+  );
 
   return (
     <Menu
@@ -29,12 +45,30 @@ const ShopHeader = () => {
             <span> {list?.length} </span>
           </Link>
         </Menu.Item>
-        <Menu.Item key="/login">
-          <Link to="/login">Login</Link>
-        </Menu.Item>
-        <Menu.Item key="/signup">
-          <Link to="/signup">SignUp</Link>
-        </Menu.Item>
+        {isAuthenticated ? (
+          <Dropdown overlay={userMenu} trigger={["click"]}>
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                cursor: "pointer",
+              }}
+            >
+              <Avatar icon={<UserOutlined />} />
+              <span style={{ marginLeft: 8 }}>{user.email}</span>{" "}
+              {/* Display user email */}
+            </div>
+          </Dropdown>
+        ) : (
+          <>
+            <Menu.Item key="/login">
+              <Link to="/login">Login</Link>
+            </Menu.Item>
+            <Menu.Item key="/signup">
+              <Link to="/signup">Sign Up</Link>
+            </Menu.Item>
+          </>
+        )}
       </div>
     </Menu>
   );
