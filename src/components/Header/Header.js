@@ -1,10 +1,11 @@
 import { Menu } from "antd";
 import { ShoppingCartOutlined } from "@ant-design/icons";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { useSelector } from "react-redux";
 
 const ShopHeader = () => {
   const { list } = useSelector((state) => state.cart);
+  const location = useLocation(); // Get the current location
 
   return (
     <Menu
@@ -14,17 +15,27 @@ const ShopHeader = () => {
         width: "100%",
       }}
       mode="horizontal"
+      selectedKeys={[location.pathname]} // Select the current path
     >
-      <Menu.Item style={{ marginRight: "auto" }}>
+      <Menu.Item key="/">
         <Link to="/">Shop Name</Link>
       </Menu.Item>
-      <Menu.Item style={{ marginLeft: "auto" }}>
-        <Link to="/cart">
-          <ShoppingCartOutlined />
-          Cart
-          <span> {list?.length} </span>
-        </Link>
-      </Menu.Item>
+
+      <div style={{ display: "flex", marginLeft: "auto" }}>
+        <Menu.Item key="/cart">
+          <Link to="/cart">
+            <ShoppingCartOutlined />
+            Cart
+            <span> {list?.length} </span>
+          </Link>
+        </Menu.Item>
+        <Menu.Item key="/login">
+          <Link to="/login">Login</Link>
+        </Menu.Item>
+        <Menu.Item key="/signup">
+          <Link to="/signup">SignUp</Link>
+        </Menu.Item>
+      </div>
     </Menu>
   );
 };
